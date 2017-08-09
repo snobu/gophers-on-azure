@@ -27,7 +27,7 @@ func main() {
 		Handler(http.FileServer(http.Dir(dir)))
 	srv := &http.Server{
 		Handler:      r,
-		Addr:         "localhost:8000",
+		Addr:         ":8000",
 		WriteTimeout: 5 * time.Second,
 		ReadTimeout:  5 * time.Second,
 	}
