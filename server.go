@@ -1,6 +1,7 @@
 package main
 
 import (
+	"runtime"
 	"flag"
 	"fmt"
 	"github.com/gorilla/mux"
@@ -13,7 +14,9 @@ var log = logrus.New()
 
 func statsHandler(w http.ResponseWriter, r *http.Request) {
 	log.Info("In statsHandler..")
-	stats := "some stats as string"
+	stats := runtime.GOOS + "\n" +
+			 runtime.GOARCH + "\n" +
+			 runtime.Version()
 	fmt.Fprintf(w, "%s", stats)
 }
 
