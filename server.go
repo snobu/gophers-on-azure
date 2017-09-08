@@ -5,13 +5,11 @@ import (
 	"flag"
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 	"time"
 	"encoding/json"
 )
-
-var log = logrus.New()
 
 func statsHandler(w http.ResponseWriter, r *http.Request) {
 	stats := runtime.GOOS + "\n" +
@@ -55,7 +53,7 @@ func priceHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprintf(w, "%.2f", coin.Result.Price)
-
+	log.Info("1 BTC = ", coin.Result.Price, " USD")
 }
 
 func main() {

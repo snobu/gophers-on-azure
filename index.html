@@ -15,22 +15,30 @@
     </style>
     <script async="false">
       var request = new XMLHttpRequest();
-      request.open('GET', '/price', true);
-      request.onload = function() {
-        var price = document.getElementById('price');
-        if (request.status >= 200 && request.status < 400) {
-          // Success!
-          price.innerText = request.responseText + ' USD';
-        }
-        else {
-          console.error(`API response: {request.status}`)
-          price.innerText = 'API error';
-        }
-      };
-      request.onerror = function(err) {
-        console.error(err);
-      };
-      request.send();
+      showBtcPrice();
+      setInterval(
+        () => {
+          showBtcPrice();
+        }, 31200);
+
+      function showBtcPrice() {
+        request.open('GET', '/price', true);
+        request.onload = () => {
+          var price = document.getElementById('price');
+          if (request.status >= 200 && request.status < 400) {
+            // Success!
+            price.innerText = request.responseText + ' USD';
+          }
+          else {
+            console.error(`API response: {request.status}`)
+            price.innerText = 'API error';
+          }
+        };
+        request.onerror = err => {
+          console.error(err);
+        };
+        request.send();
+      }
     </script>
   </head>
 
