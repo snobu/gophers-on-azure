@@ -12,16 +12,20 @@
         font: 1.3em "Segoe UI", Helvetica, sans-serif;
         color: #ffb800;
       }
+      pre {
+        color: #ffb800;
+      }
     </style>
     <script async="false">
-      var request = new XMLHttpRequest();
       showBtcPrice();
+      showVersion();
       setInterval(
         () => {
           showBtcPrice();
         }, 31200);
 
       function showBtcPrice() {
+        var request = new XMLHttpRequest();
         request.open('GET', '/price', true);
         request.onload = () => {
           var price = document.getElementById('price');
@@ -39,13 +43,35 @@
         };
         request.send();
       }
+
+      function showVersion() {
+        var request = new XMLHttpRequest();
+        request.open('GET', '/version', true);
+        request.onload = () => {
+          var version = document.getElementById('version');
+          if (request.status >= 200 && request.status < 400) {
+            // Success!
+            version.innerText = request.responseText;
+          }
+          else {
+            console.error(`Cannot get version: {request.status}`)
+            version.innerText = request.status;
+          }
+        };
+        request.onerror = err => {
+          console.error(err);
+        };
+        request.send();
+      }
     </script>
   </head>
 
 <body>
   <img style="margin-left: -9px" src="gophers.png" />
   <h1 style="margin-left: 200px; margin-top: -100px">1 BTC = <span id="price"></span></h1>
-  <h2 style="margin-left: 550px; margin-top: 20px">Gophers on Azure (circa 2017)</h2>
+  <p>
+    <pre id="version" style="margin-left: 60px"></pre>
+  </p>
+  <h2 style="margin-left: 550px; margin-top: 30px">Gophers on Azure (circa 2017)</h2>
 </body>
-
 </html>
