@@ -15,5 +15,6 @@ steps:
     echo $(acr_host)
     echo $(system.teamProject)
     echo $(system.debug)
+    cat /home/vsts/work/_temp/*sh
     docker login $(acr_host) -u $(acr_user) -p $(acr_pass)
     docker push adcaline/gophers-on-azure
