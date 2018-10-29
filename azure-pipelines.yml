@@ -12,6 +12,8 @@ steps:
     make image
 - script: |
     echo ========= VARS =========
-    echo $acr_host
-    docker login $acr_host -u $acr_user -p $acr_pass
+    echo $(acr_host)
+    echo $(system.teamProject)
+    echo $(system.debug)
+    docker login $(acr_host) -u $(acr_user) -p $(acr_pass)
     docker push adcaline/gophers-on-azure
