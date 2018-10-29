@@ -7,7 +7,7 @@ image:
 	@echo ------------------------
 	@echo BUILDING DOCKER IMAGE...
 	@echo ------------------------
-	docker build . -t adcaline/gophers-on-azure
+	docker build . -t shipyard.azurecr.io/adcaline/gophers-on-azure
 
 push:
 	docker push adcaline/gophers-on-azure
