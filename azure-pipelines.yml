@@ -11,5 +11,5 @@ steps:
     make deps
     make image
 - script: |
-    docker login -u $(acr_user) -p $(acr_pass)
+    docker login $(acr_host) -u $(acr_user) -p $(acr_pass)
     docker push adcaline/gophers-on-azure
