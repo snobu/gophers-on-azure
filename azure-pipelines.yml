@@ -8,5 +8,5 @@ pool:
 
 steps:
 - script: |
-  make deps
-  make image
+    make deps
+    make image
