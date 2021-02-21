@@ -24,7 +24,7 @@ func priceHandler(w http.ResponseWriter, r *http.Request) {
 
 	type Coin struct {
 		Result struct {
-			Price float64 `json:"price"`
+			Price int `json:"price"`
 		} `json:"result"`
 	}
 
