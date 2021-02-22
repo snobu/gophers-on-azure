@@ -24,7 +24,7 @@ func priceHandler(w http.ResponseWriter, r *http.Request) {
 
 	type Coin struct {
 		Result struct {
-			Price int `json:"price"`
+			Price float64 `json:"price"`
 		} `json:"result"`
 	}
 
@@ -53,7 +53,7 @@ func priceHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
-	fmt.Fprintf(w, "%d", coin.Result.Price)
+	fmt.Fprintf(w, "%d", int(coin.Result.Price))
 	log.Info("1 BTC = ", coin.Result.Price, " USD")
 }
 
@@ -66,8 +66,8 @@ func main() {
 	r.HandleFunc("/price", priceHandler).Methods("GET")
 	r.PathPrefix("/").
 		Handler(http.FileServer(http.Dir(dir)))
-	
-	// If APP_PORT env variable is not present
+
+    // If APP_PORT env variable is not present
 	// defaut to 8000/TCP.
 	port := "8000"
 	portFromEnvVar := os.Getenv("APP_PORT")
