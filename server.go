@@ -15,7 +15,8 @@ import (
 func statsHandler(w http.ResponseWriter, r *http.Request) {
 	stats := runtime.GOOS + "\n" +
 			 runtime.GOARCH + "\n" +
-			 runtime.Version()
+			 runtime.Version() + "\n" +
+             os.Getenv("FRAMEWORK_VERSION")
 	fmt.Fprintf(w, "%s", stats)
 }
 
