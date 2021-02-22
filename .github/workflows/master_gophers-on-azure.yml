@@ -25,10 +25,10 @@ jobs:
       run: |
         go version
         go get github.com/gorilla/mux
-	go get github.com/sirupsen/logrus
+        go get github.com/sirupsen/logrus
 
     - name: Build code
-        run: |
+      run: |
         make build
 
     - uses: azure/docker-login@v1
