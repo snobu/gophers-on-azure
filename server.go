@@ -2,7 +2,6 @@ package main
 
 import (
 	"os"
-	"runtime"
 	"flag"
 	"fmt"
 	"github.com/gorilla/mux"
@@ -12,12 +11,9 @@ import (
 	"encoding/json"
 )
 
-func statsHandler(w http.ResponseWriter, r *http.Request) {
-	stats := runtime.GOOS + "\n" +
-			 runtime.GOARCH + "\n" +
-			 runtime.Version() + "\n" +
-             os.Getenv("FRAMEWORK_VERSION")
-	fmt.Fprintf(w, "%s", stats)
+func whatIsRunningHandler(w http.ResponseWriter, r *http.Request) {
+	what := os.Getenv("FRAMEWORK_VERSION")
+	fmt.Fprintf(w, "%s", what)
 }
 
 func priceHandler(w http.ResponseWriter, r *http.Request) {
@@ -63,7 +59,7 @@ func main() {
 	flag.StringVar(&dir, "dir", ".", "Serve from current directory")
 	flag.Parse()
 	r := mux.NewRouter()
-	r.HandleFunc("/stats", statsHandler).Methods("GET")
+	r.HandleFunc("/what", whatIsRunningHandler).Methods("GET")
 	r.HandleFunc("/price", priceHandler).Methods("GET")
 	r.PathPrefix("/").
 		Handler(http.FileServer(http.Dir(dir)))

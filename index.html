@@ -17,12 +17,15 @@
       }
     </style>
     <script async="false">
-      showBtcPrice();
-      showVersion();
-      setInterval(
-        () => {
-          showBtcPrice();
-        }, 31200);
+      document.addEventListener('DOMContentLoaded', (event) => {
+        showBtcPrice();
+        showVersion();
+        whatIsRunning();
+        setInterval(
+          () => {
+            showBtcPrice();
+          }, 31200);
+      });
 
       function showBtcPrice() {
         var request = new XMLHttpRequest();
@@ -63,6 +66,18 @@
         };
         request.send();
       }
+
+      function whatIsRunning() {
+        let what = document.getElementById('what');
+        fetch('/what')
+          .then(response => 'Image tag: ' + response.text())
+          .then(response => {
+            what.innerText = response;
+          })
+          .catch(function(error) {
+            console.log('Looks like there was a problem: ', error);
+        });
+      }
     </script>
   </head>
 
@@ -72,6 +87,9 @@
   <p>
     <pre id="version" style="margin-left: 60px"></pre>
   </p>
-  <h2 style="margin-left: 550px; margin-top: 30px">(C) Gophers on Azure (circa 2017)</h2>
+  <p>
+    <pre id="what" style="margin-left: 60px"></pre>
+  </p>
+  <h2 style="margin-left: 550px; margin-top: 30px">Gophers on Azure (circa 2017)</h2>
 </body>
 </html>
