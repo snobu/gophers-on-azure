@@ -4,13 +4,6 @@ image:
 	@echo -------------------------------------
 	CGO_ENABLED=0 GOOS=linux go build -o app-static -a -ldflags '-extldflags "-static"' .
 	file app-static > version
-	@echo ------------------------
-	@echo BUILDING DOCKER IMAGE...
-	@echo ------------------------
-	docker build . -t shipyard.azurecr.io/adcaline/gophers-on-azure
-
-push:
-	docker push adcaline/gophers-on-azure
 
 deps:
 	go get github.com/gorilla/mux
