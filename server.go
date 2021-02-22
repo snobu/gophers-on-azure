@@ -53,7 +53,7 @@ func priceHandler(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
-	fmt.Fprintf(w, "%.2f", coin.Result.Price)
+	fmt.Fprintf(w, "%d", coin.Result.Price)
 	log.Info("1 BTC = ", coin.Result.Price, " USD")
 }
 
