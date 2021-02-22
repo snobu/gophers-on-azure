@@ -1,4 +1,4 @@
-image:
+build:
 	@echo -------------------------------------
 	@echo Compiling app to ELF static binary...
 	@echo -------------------------------------
