@@ -5,6 +5,5 @@ build:
 	CGO_ENABLED=0 GOOS=linux go build -o app-static -a -ldflags '-extldflags "-static"' .
 
 deps:
-	go get github.com/gorilla/mux
-	go get github.com/sirupsen/logrus
+	go get .
 	@echo Go deps installed.
