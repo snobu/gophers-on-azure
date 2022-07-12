@@ -1,4 +1,4 @@
-name: Deploy to ContainerApps
+name: Deploy to Container Apps
 
 # When this action will be executed
 on:
