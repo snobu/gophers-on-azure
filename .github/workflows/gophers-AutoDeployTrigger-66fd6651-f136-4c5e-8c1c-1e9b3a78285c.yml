@@ -4,14 +4,14 @@ name: Trigger auto deployment for gophers
 on:
   # Automatically trigger it when detected changes in repo
   push:
-    branches: 
+    branches:
       [ master ]
     paths:
     - '**'
     - '.github/workflows/gophers-AutoDeployTrigger-66fd6651-f136-4c5e-8c1c-1e9b3a78285c.yml'
 
-  # Allow mannually trigger 
-  workflow_dispatch:      
+  # Allow mannually trigger
+  workflow_dispatch:
 
 jobs:
   build:
@@ -43,7 +43,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    
+
     steps:
       - name: Azure Login
         uses: azure/login@v1
