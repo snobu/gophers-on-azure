@@ -1,19 +1,24 @@
 package main
 
 import (
-    "os"
+	"encoding/json"
 	"flag"
 	"fmt"
+	"net/http"
+	"os"
+	"time"
+
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
-	"net/http"
-	"time"
-	"encoding/json"
 )
 
-func whatIsRunningHandler(w http.ResponseWriter, r *http.Request) {
-	what := os.Getenv("FRAMEWORK_VERSION")
-	fmt.Fprintf(w, "%s", what)
+func envHandler(w http.ResponseWriter, r *http.Request) {
+	var pairs []string
+	for _, e := range os.Environ() {
+        pairs = append(pairs, e)
+    }
+
+	json.NewEncoder(w).Encode(pairs)
 }
 
 func priceHandler(w http.ResponseWriter, r *http.Request) {
@@ -59,7 +64,7 @@ func main() {
 	flag.StringVar(&dir, "dir", ".", "Serve from current directory")
 	flag.Parse()
 	r := mux.NewRouter()
-	r.HandleFunc("/what", whatIsRunningHandler).Methods("GET")
+	r.HandleFunc("/env", envHandler).Methods("GET")
 	r.HandleFunc("/price", priceHandler).Methods("GET")
 	r.PathPrefix("/").
 		Handler(http.FileServer(http.Dir(dir)))
