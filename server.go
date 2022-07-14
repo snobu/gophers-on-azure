@@ -1,9 +1,7 @@
 package main
 
 import (
-	"encoding/json"
 	"flag"
-	"fmt"
 	"net/http"
 	"os"
 	"time"
@@ -14,65 +12,6 @@ import (
 
 var router *mux.Router
 var routes []string
-
-func priceHandler(w http.ResponseWriter, r *http.Request) {
-	url := "https://api.cryptowat.ch/markets/kraken/btcusd/price"
-
-	type Coin struct {
-		Result struct {
-			Price float64 `json:"price"`
-		} `json:"result"`
-	}
-
-	// Build the request
-	req, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		log.Fatal("NewRequest: ", err)
-		return
-	}
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Fatal("Do: ", err)
-		return
-	}
-
-	// Callers should close resp.Body
-	// when done reading from it
-	// Defer the closing of the body
-	defer resp.Body.Close()
-
-	var coin Coin
-
-	if err := json.NewDecoder(resp.Body).Decode(&coin); err != nil {
-		log.Println(err)
-	}
-
-	fmt.Fprintf(w, "%d", int(coin.Result.Price))
-	log.Info("1 BTC = ", coin.Result.Price, " USD")
-}
-
-func gorillaWalkFn(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
-    path, err := route.GetPathTemplate()
-	if err != nil {
-		log.Fatal(err)
-	}
-	routes = append(routes, path)
-
-	return nil
-}
-
-func gorillaWalkHandler(w http.ResponseWriter, r *http.Request) {
-	err := router.Walk(gorillaWalkFn)
-	if err != nil {
-		log.Fatal(err)
-	}
-	for _, route := range routes {
-		fmt.Fprintf(w, "%s\n", route)
-	}
-	routes = []string{}
-}
 
 func main() {
 	var dir string
