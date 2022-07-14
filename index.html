@@ -4,6 +4,9 @@
       body {
         background: #5c005c;
       }
+      a, a:visited {
+        color: #fff;
+      }
       h1 {
         font: 2.7em "Segoe UI", Helvetica, sans-serif;
         color: #fff;
@@ -12,8 +15,11 @@
         font: 1.3em "Segoe UI", Helvetica, sans-serif;
         color: #ffb800;
       }
-      pre {
+      p {
         color: #ffb800;
+        font-family: monaco, Consolas, monospace;
+        word-wrap: break-word;
+        width: 750px;
       }
     </style>
     <script async="false">
@@ -83,13 +89,10 @@
 
 <body>
   <img style="margin-left: -9px" src="gophers.png" />
-  <h1 style="margin-left: 200px; margin-top: -100px">1 BTC = <span id="price"></span></h1>
-  <p>
-    <pre id="version" style="margin-left: 60px"></pre>
-  </p>
-  <p>
-    <pre id="what" style="margin-left: 60px"></pre>
-  </p>
-  <h2 style="margin-left: 550px; margin-top: 30px">Gophers on Azure (circa 2017)</h2>
+  <h2 style="margin-left: 550px">Gophers on Azure (circa 2017)</h2>
+  <h1 style="margin-left: 200px">1 BTC = <span id="price"></span></h1>
+  <p id="version" style="margin-left: 60px"></p>
+  <p id="env" style="margin-left: 60px"><a href="/env">Environment Variables</a></p>
+  <p id="env" style="margin-left: 60px"><a href="/routes">Routes</a></p>
 </body>
 </html>

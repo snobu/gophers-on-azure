@@ -12,17 +12,20 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+var router *mux.Router
+var routes []string
+
 func envHandler(w http.ResponseWriter, r *http.Request) {
 	var pairs []string
 	for _, e := range os.Environ() {
-        pairs = append(pairs, e)
-    }
+		pairs = append(pairs, e)
+	}
 
 	json.NewEncoder(w).Encode(pairs)
 }
 
 func priceHandler(w http.ResponseWriter, r *http.Request) {
-    url := "https://api.cryptowat.ch/markets/kraken/btcusd/price"
+	url := "https://api.cryptowat.ch/markets/kraken/btcusd/price"
 
 	type Coin struct {
 		Result struct {
@@ -59,17 +62,38 @@ func priceHandler(w http.ResponseWriter, r *http.Request) {
 	log.Info("1 BTC = ", coin.Result.Price, " USD")
 }
 
+func gorillaWalkFn(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
+    path, err := route.GetPathTemplate()
+	if err != nil {
+		log.Fatal(err)
+	}
+	routes = append(routes, path)
+
+	return nil
+}
+
+func gorillaWalkHandler(w http.ResponseWriter, r *http.Request) {
+	err := router.Walk(gorillaWalkFn)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, route := range routes {
+		fmt.Fprintf(w, "%s\n", route)
+	}
+	routes = []string{}
+}
+
 func main() {
 	var dir string
 	flag.StringVar(&dir, "dir", ".", "Serve from current directory")
 	flag.Parse()
-	r := mux.NewRouter()
-	r.HandleFunc("/env", envHandler).Methods("GET")
-	r.HandleFunc("/price", priceHandler).Methods("GET")
-	r.PathPrefix("/").
-		Handler(http.FileServer(http.Dir(dir)))
+	router = mux.NewRouter()
+	router.HandleFunc("/env", envHandler).Methods("GET")
+	router.HandleFunc("/price", priceHandler).Methods("GET")
+	router.HandleFunc("/routes", gorillaWalkHandler).Methods("GET")
+	router.PathPrefix("/").Methods("GET").Handler(http.FileServer(http.Dir(dir)))
 
-    // If APP_PORT env variable is not present
+	// If APP_PORT env variable is not present
 	// defaut to 8000/TCP.
 	port := "8000"
 	portFromEnvVar := os.Getenv("APP_PORT")
@@ -79,7 +103,7 @@ func main() {
 
 	// Spin up HTTP listener
 	srv := &http.Server{
-		Handler:      r,
+		Handler:      router,
 		Addr:         ":" + port,
 		WriteTimeout: 5 * time.Second,
 		ReadTimeout:  5 * time.Second,
