@@ -15,15 +15,6 @@ import (
 var router *mux.Router
 var routes []string
 
-func envHandler(w http.ResponseWriter, r *http.Request) {
-	var pairs []string
-	for _, e := range os.Environ() {
-		pairs = append(pairs, e)
-	}
-
-	json.NewEncoder(w).Encode(pairs)
-}
-
 func priceHandler(w http.ResponseWriter, r *http.Request) {
 	url := "https://api.cryptowat.ch/markets/kraken/btcusd/price"
 
