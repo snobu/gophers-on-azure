@@ -11,7 +11,8 @@ import (
 )
 
 func envHandler(w http.ResponseWriter, r *http.Request) {
-	// Unnecessary since it will default to text/plain anyway
+	// Unnecessary since it will default to text/plain anyway,
+    // but let's not be naive
 	w.Header().Set("Content-Type", "text/plain")
 	for _, pair := range os.Environ() {
 		fmt.Fprintf(w, "%s\n", pair)
